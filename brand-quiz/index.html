@@ -255,7 +255,7 @@ const CONFIG = {
   instagram: "https://www.instagram.com/",              // paste your profile links
   facebook: "https://www.facebook.com/",
   linkedin: "https://www.linkedin.com/",
-  hubspot: { portalId: "443693467", region: "ap1", formGuid: "efc4a4a4-9233-4df8-bc03-ad849fcedb56" }
+  sheetEndpoint: ""   // paste the Apps Script web app URL here
 };
 
 /* ================== CONTENT ================== */
@@ -539,26 +539,15 @@ async function finish(){
   const data={name:state.name,email:state.email,answers:state.answers,s,primary,secondary,stage};
   showResult(data);
   try{ localStorage.setItem("brandQuizLast", JSON.stringify({primary,secondary,stage,s,at:Date.now()})); }catch(e){}
-  submitToHubSpot(data);
+  submitToSheet(data);
 }
 
-/* ---- HubSpot ---- */
-function submitToHubSpot(d){
-  const h=CONFIG.hubspot; if(!h.formGuid) return;
-  const url=`https://api-${h.region}.hsforms.com/submissions/v3/integration/submit/${h.portalId}/${h.formGuid}`;
-  const body={ submittedAt:Date.now(),
-    fields:[
-      {objectTypeId:"0-1",name:"firstname",value:d.name},
-      {objectTypeId:"0-1",name:"email",value:d.email},
-      {objectTypeId:"0-1",name:"brand_quiz_result",value:d.primary},
-      {objectTypeId:"0-1",name:"brand_quiz_secondary",value:d.secondary},
-      {objectTypeId:"0-1",name:"brand_quiz_stage",value:d.stage==="early"?"Early":"Established"},
-      {objectTypeId:"0-1",name:"brand_quiz_scores",value:`Strategy ${d.s.A}, Perception ${d.s.B}, Visuals ${d.s.C}, Audience ${d.s.D}`}
-    ],
-    context:{pageUri:location.href,pageName:document.title},
-    legalConsentOptions:{consent:{consentToProcess:true,text:"I agree to receive my quiz result and occasional notes from Leona Design.",communications:[]}}
-  };
-  fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)}).catch(()=>{});
+/* ---- Google Sheet ---- */
+function submitToSheet(d){
+  if(!CONFIG.sheetEndpoint) return;
+  const K=COMBOS[d.primary+d.secondary];
+  const body={name:d.name,email:d.email,primary:d.primary,secondary:d.secondary,stage:d.stage,s:d.s,answers:d.answers,comboIndex:K?K.n:0,pageUri:location.href};
+  fetch(CONFIG.sheetEndpoint,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify(body)}).catch(()=>{});
 }
 
 $("restartBtn").addEventListener("click",()=>{  result.hidden=true; intro.hidden=false; window.scrollTo({top:0}); });
