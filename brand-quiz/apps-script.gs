@@ -3,6 +3,21 @@ const AREAS = { A: "Strategy", B: "Perception", C: "Visuals", D: "Audience" };
 const BOOKING_URL = "https://zcal.co/leona/designconsultation";
 const SITE_URL = "https://www.leonasdesign.com";
 const SENDER_NAME = "Leona Kuo";
+const SIGNATURE_HTML = `<table cellpadding="0" cellspacing="0" border="0" style="font-family:Helvetica,Arial,sans-serif;color:#111;border-collapse:collapse;max-width:560px">
+<tr><td style="padding:0 0 14px 0"><a href="https://www.leonasdesign.com/" style="text-decoration:none"><img src="https://leonakuo.github.io/brand-quiz/sig/logo.png" width="147" height="20" alt="LEONA DESIGN." style="display:block;border:0"></a></td></tr>
+<tr><td style="padding:0 0 12px 0;border-top:2px solid #111"></td></tr>
+<tr><td style="padding:0 0 4px 0;font-size:11px;letter-spacing:.06em;color:#8a8a8a"><a href="https://www.instagram.com/leona_design_au/" style="color:#8a8a8a;text-decoration:none">@Leona Design</a></td></tr>
+<tr><td style="padding:0 0 2px 0;font-size:17px;font-weight:bold;color:#111">Leona Kuo</td></tr>
+<tr><td style="padding:0 0 12px 0;font-size:11px;letter-spacing:.12em;color:#111">DIRECTOR &middot; LEONA DESIGN</td></tr>
+<tr><td style="padding:0 0 3px 0;font-size:12px;color:#111"><span style="display:inline-block;width:18px;font-weight:bold">P</span>AU&nbsp; <a href="tel:+61414040106" style="color:#111;text-decoration:none">+61 414 040 106</a>&nbsp;&nbsp;&nbsp;TW&nbsp; <a href="tel:+886982327851" style="color:#111;text-decoration:none">+886 982 327 851</a></td></tr>
+<tr><td style="padding:0 0 3px 0;font-size:12px;color:#111"><span style="display:inline-block;width:18px;font-weight:bold">E</span><a href="mailto:leona@leonasdesign.com" style="color:#111;text-decoration:none">leona@leonasdesign.com</a></td></tr>
+<tr><td style="padding:0 0 14px 0;font-size:12px;color:#111"><span style="display:inline-block;width:18px;font-weight:bold">W</span><a href="https://www.leonasdesign.com/" style="color:#111;text-decoration:none">www.leonasdesign.com</a></td></tr>
+<tr><td style="padding:0 0 14px 0">
+  <a href="https://www.facebook.com/Leona.design.2020" style="text-decoration:none"><img src="https://leonakuo.github.io/brand-quiz/sig/facebook.png" width="31" height="31" alt="Facebook" style="border:0;vertical-align:middle;margin-right:8px"></a><a href="https://www.instagram.com/leona_design_au/" style="text-decoration:none"><img src="https://leonakuo.github.io/brand-quiz/sig/instagram.png" width="31" height="31" alt="Instagram" style="border:0;vertical-align:middle;margin-right:8px"></a><a href="https://www.linkedin.com/in/leona-kuo-9b056913b/" style="text-decoration:none"><img src="https://leonakuo.github.io/brand-quiz/sig/linkedin.png" width="31" height="31" alt="LinkedIn" style="border:0;vertical-align:middle"></a>
+</td></tr>
+<tr><td style="padding:0 0 14px 0;font-size:10px;letter-spacing:.14em;color:#111"><a href="https://www.instagram.com/leona_design_au/" style="color:#111;text-decoration:none">INSTAGRAM</a>&nbsp; &bull; &nbsp;<a href="https://www.facebook.com/Leona.design.2020" style="color:#111;text-decoration:none">FACEBOOK</a>&nbsp; &bull; &nbsp;<a href="https://www.tiktok.com/@leona.kuo888" style="color:#111;text-decoration:none">TIKTOK</a>&nbsp; &bull; &nbsp;<a href="https://www.linkedin.com/in/leona-kuo-9b056913b/" style="color:#111;text-decoration:none">LINKEDIN</a></td></tr>
+<tr><td style="padding:0;background:#111;color:#f2d770;font-size:12px;line-height:1.5"><table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td style="padding:12px 16px;color:#f2d770;font-size:12px">Branding for businesses whose quality is felt,<br>but not yet seen.</td><td style="padding:12px 16px;text-align:right;white-space:nowrap"><a href="https://zcal.co/leona/designconsultation" style="color:#111;background:#f2d770;text-decoration:none;font-weight:bold;font-size:11px;letter-spacing:.06em;padding:8px 12px;display:inline-block">BOOK YOUR FREE CONSULTATION &rarr;</a></td></tr></table></td></tr>
+</table>`;
 const HEADERS = ["Submitted (Adelaide)","First name","Email","Primary bottleneck","Primary type","Secondary bottleneck","Stage","Coordinate","Strategy","Perception","Visuals","Audience","Answers","Page","Email sent"];
 
 const TYPES = {
@@ -176,7 +191,7 @@ function sendResultEmail(d, K) {
     ${P("If you would like to talk through what this means for your business, I offer a free 30-minute design consultation. You can pick a time here:")}
     <p style="margin:6px 0 22px"><a href="${BOOKING_URL}" style="display:inline-block;background:#1a1a1a;color:#fff;text-decoration:none;padding:12px 22px;border-radius:6px;font-weight:bold">Book a consultation</a></p>
     ${P("No pressure either way. If the result gave you something useful to act on, that is a good outcome too.")}
-    <p style="margin:26px 0 0;line-height:1.6">Warmly,<br><b>Leona</b><br>Founder and Creative Director, Leona Design<br><a href="${SITE_URL}" style="color:#222">www.leonasdesign.com</a></p>
+    <p style="margin:26px 0 14px">Warmly,</p>${SIGNATURE_HTML}
   </div>`;
 
   const text = `Hi ${name},\n\nThanks for taking the Brand Bottleneck Quiz. Here is your result.\n\n${T.eyebrow}\n${T.name}\nSecondary: ${AREAS[d.secondary] || ""} | Stage: ${stage}\n\nWhat you are already getting right\n${T.right}\n\nWhat is holding you back\n${T.rub}\n\n${K ? "How the two connect\n" + K.connect + "\n\n" : ""}${S ? "Your next move\n" + S.move + "\n\n" : ""}Your scores: Strategy ${s.A}, Perception ${s.B}, Visuals ${s.C}, Audience ${s.D}\n\nIf you would like to talk through what this means for your business, I offer a free 30-minute design consultation:\n${BOOKING_URL}\n\nNo pressure either way.\n\nWarmly,\nLeona\nFounder and Creative Director, Leona Design\n${SITE_URL}`;
