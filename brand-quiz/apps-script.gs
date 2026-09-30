@@ -4,7 +4,7 @@ const BOOKING_URL = "https://zcal.co/leona/designconsultation";
 const SITE_URL = "https://www.leonasdesign.com";
 const SENDER_NAME = "Leona Kuo";
 const SIGNATURE_HTML = `<table cellpadding="0" cellspacing="0" border="0" style="font-family:Helvetica,Arial,sans-serif;color:#111;border-collapse:collapse;max-width:560px">
-<tr><td style="padding:0 0 14px 0"><a href="https://www.leonasdesign.com/" style="text-decoration:none"><img src="https://leonakuo.github.io/brand-quiz/sig/logo.png" width="147" height="20" alt="LEONA DESIGN." style="display:block;border:0"></a></td></tr>
+<tr><td style="padding:0 0 14px 0"><a href="https://www.leonasdesign.com/" style="text-decoration:none"><img src="https://leonakuo.github.io/brand-quiz/sig/logo.png" width="147" height="18" alt="LEONA DESIGN." style="display:block;border:0"></a></td></tr>
 <tr><td style="padding:0 0 12px 0;border-top:2px solid #111"></td></tr>
 <tr><td style="padding:0 0 4px 0;font-size:11px;letter-spacing:.06em;color:#8a8a8a"><a href="https://www.instagram.com/leona_design_au/" style="color:#8a8a8a;text-decoration:none">@Leona Design</a></td></tr>
 <tr><td style="padding:0 0 2px 0;font-size:17px;font-weight:bold;color:#111">Leona Kuo</td></tr>
@@ -187,14 +187,14 @@ function sendResultEmail(d, K) {
     ${H("What is holding you back")}${P(T.rub)}
     ${K ? H("How the two connect") + P(K.connect) : ""}
     ${S ? H("Your next move") + P(S.move) : ""}
-    <p style="margin:22px 0;color:#555">Your scores: Strategy ${esc(s.A)} &middot; Perception ${esc(s.B)} &middot; Visuals ${esc(s.C)} &middot; Audience ${esc(s.D)}</p>
+    <p style="margin:22px 0;color:#555">Your scores: Strategy ${s.A||0} &middot; Perception ${s.B||0} &middot; Visuals ${s.C||0} &middot; Audience ${s.D||0}</p>
     ${P("If you would like to talk through what this means for your business, I offer a free 30-minute design consultation. You can pick a time here:")}
     <p style="margin:6px 0 22px"><a href="${BOOKING_URL}" style="display:inline-block;background:#1a1a1a;color:#fff;text-decoration:none;padding:12px 22px;border-radius:6px;font-weight:bold">Book a consultation</a></p>
     ${P("No pressure either way. If the result gave you something useful to act on, that is a good outcome too.")}
     <p style="margin:26px 0 14px">Warmly,</p>${SIGNATURE_HTML}
   </div>`;
 
-  const text = `Hi ${name},\n\nThanks for taking the Brand Bottleneck Quiz. Here is your result.\n\n${T.eyebrow}\n${T.name}\nSecondary: ${AREAS[d.secondary] || ""} | Stage: ${stage}\n\nWhat you are already getting right\n${T.right}\n\nWhat is holding you back\n${T.rub}\n\n${K ? "How the two connect\n" + K.connect + "\n\n" : ""}${S ? "Your next move\n" + S.move + "\n\n" : ""}Your scores: Strategy ${s.A}, Perception ${s.B}, Visuals ${s.C}, Audience ${s.D}\n\nIf you would like to talk through what this means for your business, I offer a free 30-minute design consultation:\n${BOOKING_URL}\n\nNo pressure either way.\n\nWarmly,\nLeona\nFounder and Creative Director, Leona Design\n${SITE_URL}`;
+  const text = `Hi ${name},\n\nThanks for taking the Brand Bottleneck Quiz. Here is your result.\n\n${T.eyebrow}\n${T.name}\nSecondary: ${AREAS[d.secondary] || ""} | Stage: ${stage}\n\nWhat you are already getting right\n${T.right}\n\nWhat is holding you back\n${T.rub}\n\n${K ? "How the two connect\n" + K.connect + "\n\n" : ""}${S ? "Your next move\n" + S.move + "\n\n" : ""}Your scores: Strategy ${s.A||0}, Perception ${s.B||0}, Visuals ${s.C||0}, Audience ${s.D||0}\n\nIf you would like to talk through what this means for your business, I offer a free 30-minute design consultation:\n${BOOKING_URL}\n\nNo pressure either way.\n\nWarmly,\nLeona\nFounder and Creative Director, Leona Design\n${SITE_URL}`;
 
   GmailApp.sendEmail(d.email, "Your brand bottleneck: " + T.name, text, { htmlBody: html, name: SENDER_NAME });
 }
